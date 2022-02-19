@@ -12,22 +12,23 @@
 </head>
 <body>
 <h1>A game of Tic-Tac-Toe</h1>
-    <section>
-        <h1 class="game--title">Tic Tac Toe</h1>
-        <div class="game--container">
-            <div data-cell-index="0" class="cell"></div>
-            <div data-cell-index="1" class="cell"></div>
-            <div data-cell-index="2" class="cell"></div>
-            <div data-cell-index="3" class="cell"></div>
-            <div data-cell-index="4" class="cell"></div>
-            <div data-cell-index="5" class="cell"></div>
-            <div data-cell-index="6" class="cell"></div>
-            <div data-cell-index="7" class="cell"></div>
-            <div data-cell-index="8" class="cell"></div>
-        </div>
-        <h2 class="game--status"></h2>
-        <button class="game--restart">Redémarrer le jeu</button>
-    </section>
+<section id="game">
+    <h2 class="game--title">Tic Tac Toe</h2>
+    <div id="game--grid">
+        <!-- On va créer notre grille avec data-cell-index afin de nous permttre de retrouver la case dont on parle facilement-->
+        <div data-cell-index="0" class="cell"></div>
+        <div data-cell-index="1" class="cell"></div>
+        <div data-cell-index="2" class="cell"></div>
+        <div data-cell-index="3" class="cell"></div>
+        <div data-cell-index="4" class="cell"></div>
+        <div data-cell-index="5" class="cell"></div>
+        <div data-cell-index="6" class="cell"></div>
+        <div data-cell-index="7" class="cell"></div>
+        <div data-cell-index="8" class="cell"></div>
+    </div>
+    <h3 class="game--status"></h3>
+    <button id='restart' class="game--restart">Redémarrer le jeu</button>
+</section>
 
 </body>
 </html>

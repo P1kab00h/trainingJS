@@ -16,16 +16,18 @@ body {
     margin: 0;
 }
 
+
 section {
     text-align: center;
 }
 
-.game--container {
+#game--grid {
     display: grid;
     grid-template-columns: repeat(3, auto);
     width: 306px;
     margin: 50px auto;
 }
+
 
 .cell {
     font-family: "Permanent Marker", cursive;
