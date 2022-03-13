@@ -120,3 +120,6 @@ function restartGame(){
 
 
 //TODO: prévoir un mode de jeu vs computer
+
+
+// Jeu contre le pc :
