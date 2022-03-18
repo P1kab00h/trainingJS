@@ -21,6 +21,12 @@ window.onload = function () {
 
     let snake;
 
+    let apple;
+
+    //ceci va nous permettre de calculer le nombre de block dans la largeur et la hauteur (20*20)
+    let widthInBlocks = canvasWidth/blockSize;
+    let heightInBlocks = canvasHeight/blockSize;
+
 
     // lancement de la fonction init permettant l'initialisation
     init();
@@ -40,6 +46,8 @@ window.onload = function () {
         // création du serpent (position, taille, et direction de déplacement initial)
         snake = new Snake([[6, 4], [5, 4], [4, 4]], 'right')
 
+        apple = new Apple([10,10]);
+
         refreshCanvas();
     }
 
@@ -56,6 +64,8 @@ window.onload = function () {
         snake.advance();
         // appel de la method draw de la class Snake (instancié dans snake)
         snake.draw();
+        // nous allons dessiner la pomme
+        apple.draw();
         // nous permettra de relancer la fonction (ici refreshCanvas) tous les temps donnés (ici delay soit 1000 ms)
         setTimeout(refreshCanvas, delay);
     }
@@ -153,11 +163,67 @@ window.onload = function () {
             {
                 this.direction = newDirection;
             }
-        }
-        ;
+        };
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // method pour les test de collision
+        // pour rappel les bords du canvas et le corps du seprent lui-même
+        this.checkCollision = function ()
+        {
+            let wallCollision = false;
+            let snakeCollision = false;
+
+            // on sépare la tête du serpent, c'est sur elle que l'on doit vérifier la collision
+            let snakeHead = this.body[0];
+            // si la tête correspond à l'index 0 alors le corps correspond au restant (utilisation de slice())
+            let snakeBody = this.body.slice(1);
+            // on récupére les coordonnées de la tête en X & Y
+            // le snakeX devra être compris entre 0 & 19 => widthInBlocks (soit 20 blocks)
+            let snakeX = snakeHead[0];
+            // le snakeY devra être compris entre 0 & 19 => widthInBlocks (soit 20 blocks)
+            let snakeY = snakeHead[1];
+
+            // on défini donc nos limites
+            let minX = 0;
+            let minY = 0;
+            let maxX = widthInBlocks - 1;
+            let maxY = heightInBlocks - 1;
+
+            let isNotBetweenWidth = snakeX < minX || snakeX > maxX;
+            let isNotBetweenHeight = snakeY < minY || snakeY > maxY;
+        };
     }
 
-    document.addEventListener("keydown", function handleKeyDown(e) {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // définition de notre constructeur pour la pomme
+    // celle-ci attendra un argument de position
+    function Apple(position) {
+        this.position = position;
+
+
+        this.draw = function ()
+        {
+            //on sauvegarde la valeur précédente du canvas
+            ctx.save();
+            ctx.fillStyle = "#33cc33";
+
+            // soit radius le rayon de la pomme
+            let radius = blockSize/2;
+            // Pour dessiner un cercle nous voulons les coordonnées x&y mais la ou pour le rectangle nous voulions les deux coins du carré ici nous voulons le centre du cercle
+            let x = position[0]*blockSize + radius;
+            let y = position[1]*blockSize + radius;
+            //le calcul pour dessiner le cercle et le suivant =>
+            ctx.arc(x, y, radius, 0, Math.PI*2, true);
+            // puis comme pour le serpent on rempli le tracé
+            ctx.fill();
+            // on restaure le canvas ceci permettra d'éviter "d'écraser" la couleur du serpent par du vert (entre autre)
+            ctx.restore();
+        }
+    }
+
+
+
+
+        document.addEventListener("keydown", function handleKeyDown(e) {
         let key = e.code;
         let newDirection;
         switch (key) {
