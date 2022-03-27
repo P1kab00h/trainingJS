@@ -15,8 +15,8 @@ window.onload = function () {
     let delay = 100;
 
     // soit les coordonées en x & y de notre serpent
-    let xCoord = 0;
-    let yCoord = 0;
+/*    let xCoord = 0;
+    let yCoord = 0;*/
 
     let snake;
 
@@ -26,7 +26,10 @@ window.onload = function () {
     let widthInBlocks = canvasWidth / blockSize;
     let heightInBlocks = canvasHeight / blockSize;
 
+    let timeOut;
     let score;
+
+    let showScore = document.getElementById('score');
 
     // lancement de la fonction init permettant l'initialisation
     init();
@@ -38,11 +41,11 @@ window.onload = function () {
         // définition de notre canvas et affichage ne html
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
-        canvas.style.border = '30px solid grey';
+        canvas.style.border = '30px solid #aab42f';
 
         canvas.style.margin = "50px auto";
         canvas.style.display = "block";
-        canvas.style.backgroundColor = "#ddd";
+        canvas.style.backgroundColor = "#92c291";
 
         document.body.appendChild(canvas);
         //defini le context du canvas en 2d
@@ -81,16 +84,18 @@ window.onload = function () {
                 }
                 while (apple.isAppleOnSnake(snake))
             }
+
+            showScore.innerText = score;
             // à chaque appel de notre fonction nous allons "effacer" notre serpent
             ctx.clearRect(0, 0, canvas.height, canvas.height);
             // affichage du score sur le canvas en fond (l'ordre d'appel déterminera leurs 'hauteur')
-            displayScore();
+            // displayScore();
             // nous allons dessiner la pomme
             apple.draw();
             // appel de la method draw de la class Snake (instancié dans snake)
             snake.draw();
-            // nous permettra de relancer la fonction (ici refreshCanvas) tous les temps donnés (ici delay soit 1000 ms)
-            setTimeout(refreshCanvas, delay);
+            // nous permettra de relancer la fonction (ici refreshCanvas) tous les temps donnés (ici delay soit 100 ms)
+            timeOut = setTimeout(refreshCanvas, delay);
         }
     }
 
@@ -116,9 +121,9 @@ window.onload = function () {
         ctx.font = "bold 25px sans-serif";
         ctx.strokeText("Relancer une partie avec la touche Espace" , canvasWidth/2, canvasHeight/2 + 150)
         ctx.fillText("Relancer une partie avec la touche Espace" , canvasWidth/2, canvasHeight/2 + 150)
-
-
         ctx.restore();
+
+        return true;
     };
 
     function restartGame()
@@ -128,10 +133,12 @@ window.onload = function () {
         // ainsi que la pomme
         apple = new Apple([10, 10]);
         score = 0;
+        // ici nous vidons notre timeOut pour le redéfinir avec le timeout initial (snas cela on risque dans le cas de redémarrage répéter d'additionner les timeout et donc d'accélérer la vitesse du serpent
+        clearTimeout(timeOut)
         refreshCanvas();
     };
 
-    function displayScore()
+/*    function displayScore()
     {
         ctx.save();
         // Stylisons notre résultat
@@ -144,7 +151,7 @@ window.onload = function () {
         ctx.fillText(score.toString(), canvasHeight/2, canvasWidth/2, 100);
 
         ctx.restore();
-    }
+    }*/
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Ici nous allons dessiner le bloc dans le context on dessine un block
@@ -170,8 +177,10 @@ window.onload = function () {
         this.draw = function () {
             // va sauver notre canvas
             ctx.save();
+
+
             //Le style de remplissage ici en rouge
-            ctx.fillStyle = "#ff0000";
+            ctx.fillStyle = "#303030";
             // ici la boucle for va parcourir l'array body correspondant au corps du serpent afin de le dessiner (le représenter à l'écran)
             for (let i = 0; i < this.body.length; i++) {
                 // fonction drawBlock ou le premier argument correspond à notre context, et le second au corps du serpent (on utilise la boucle for et l'index i pour dessiner tout le corps du serpent)
@@ -317,7 +326,7 @@ window.onload = function () {
         this.draw = function () {
             //on sauvegarde la valeur précédente du canvas
             ctx.save();
-            ctx.fillStyle = "#33cc33";
+            ctx.fillStyle = "#DD1533";
             //afin d'éviter que la posiotn de la pomme ne soit conservée après avoir était mangé par le serpent on fait un beginPath() =>
             // method of the Canvas 2D API starts a new path by emptying the list of sub-paths. Call this method when you want to create a new path.
             ctx.beginPath();
