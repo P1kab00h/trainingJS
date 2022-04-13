@@ -80,7 +80,7 @@ class Fighter {
         // pour l'axe y on ajoute la velocity en y
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
-        // afin d'éviter que les personnages 'chutent' en dehors de l'écran on vérifie que l'addition de la position + la taille + la velocity est supérieur ou égale à la taille totale du canvas
+        // afin d'éviter que les personnages 'chutent' en dehors de l'écran on vérifie que l'addition de la position + la taille + la velocity est supérieur ou égale à la taille totale du canvas - 96 pixel (pour donner l'impression que les personnages sont au niveau du sol et pas en dessous ou au dessus
         if (this.position.y + this.height + this.velocity.y >= canvas.height - 96) {
             this.velocity.y = 0;
         } else {

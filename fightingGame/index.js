@@ -133,7 +133,7 @@ function animate() {
         // nous repassons la valeur de isAttacking à false immédiatement après l'attaque ayant touché afin d'éviter qu'un coup ne touche plusieurs fois
         playerOne.isAttacking = false;
         if (0 < timer) {
-            if (0 < playerTwo.health) {
+            if (0 < playerTwo.health && 0 < playerOne.health) {
                 playerTwo.health -= 20;
                 document.querySelector('#playerTwoHealth').style.width = playerTwo.health + '%';
                 console.log('touché de playerOne');
@@ -146,7 +146,7 @@ function animate() {
     ) {
         playerTwo.isAttacking = false;
         if (0 < timer) {
-            if (0 < playerOne.health) {
+            if (0 < playerOne.health && 0 < playerTwo.health) {
                 playerOne.health -= 20;
                 document.querySelector('#playerOneHealth').style.width = playerOne.health + '%';
                 console.log('touché de playerTwo')
