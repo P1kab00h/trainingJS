@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="js/utils.js"></script>
+    <script defer src="js/classes.js"></script>
+    <script defer src="index.js"></script>
+    <title>-- Fighting Game --</title>
+</head>
+<body>
+<!-- Ecran de jeu -->
+<div style="position: relative; display: inline-block">
+    <!-- Players interface-->
+    <div style="
+        position: absolute;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding: 20px
+">
+        <!-- Vie de playerOne-->
+        <div style="
+          position: relative;
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+          border-top: 4px solid white;
+          border-left: 4px solid white;
+          border-bottom: 4px solid white;
+        ">
+            <div style="background-color: red; height: 30px; width: 100%"></div>
+            <div id="playerOneHealth" style="
+            position: absolute;
+            background: #818cf8;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+          "></div>
+        </div>
+
+        <!-- Timer -->
+        <div id="timer"
+          style="
+          background-color: black;
+          width: 100px;
+          height: 90px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          border: 4px solid white;
+          font-size: 30px;
+        ">10</div>
+
+
+        <!-- Vie de playerTwo -->
+        <div style="
+          position: relative;
+          width: 100%;
+          border-top: 4px solid white;
+          border-bottom: 4px solid white;
+          border-right: 4px solid white;
+        ">
+            <div style="background-color: red; height: 30px"></div>
+            <div id="playerTwoHealth" style="
+            position: absolute;
+            background: #818cf8;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+          "></div>
+        </div>
+    </div>
+<!-- Commentaire en jeu (victoire, égalité ...) -->
+    <div id="displayText" style="position: absolute; color: white; align-items: center; justify-content: center; inset: 0px; display: flex; font-size: 50px"></div>
+    <canvas></canvas>
+</div>
+
+</body>
+</html>
