@@ -5,17 +5,8 @@ canvas.width = 1024;
 canvas.height = 576;
 
 const gravity = 0.7;
-let timer = 10;
+let timer = 90;
 let timerId;
-
-const gameBackground = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    height: 576,
-    width: 1024,
-    imgSrc: './gameAssets/img/background.png'})
 
 // définition de nos différentes touches
 const keys = {
@@ -35,13 +26,37 @@ const keys = {
         pressed: false
     }
 }
+
 // Je remplis le rectangle de l'origine x à son max width, idem pour le y et le height
 c.fillRect(0, 0, canvas.width, canvas.height)
 
-// Création de notre joueur 1 je vais créer une instance de Sprite ou on passe la position dudit joueur en x & y (création d'un objet)
-let playerOne = new Fighter({
+const gameBackground = new Sprite({
     position: {
         x: 0,
+        y: 0
+    },
+    height: 576,
+    width: 1024,
+    imgSrc: './gameAssets/img/background.png'})
+
+const gameBackgroundShop = new Sprite({
+    position: {
+        x: 620,
+        y: 148
+    },
+    height: 200,
+    width: 400,
+    imgSrc: './gameAssets/img/shop.png',
+    scale: 2.60,
+    // nous indiquons ici le nombre de frame sur notre image
+    framesMax: 6,
+    framesHold: 7
+})
+
+// Création de notre joueur 1 je vais créer une instance de Fighter, où on passe la position dudit joueur en x & y (création d'un objet), sa velocity
+let playerOne = new Fighter({
+    position: {
+        x: 100,
         y: 0
     },
     velocity: {
@@ -55,14 +70,32 @@ let playerOne = new Fighter({
     attackBoxColor:
         'darkRed',
     offset: {
-        x: 0,
-        y: 0
+        x: 215,
+        y: 92
+    },
+    imgSrc: './gameAssets/img/SamuraiMack/Idle.png',
+    scale: 2,
+    framesMax: 8,
+    framesHold: 10,
+    sprites : {
+        idle: {
+            imgSrc: './gameAssets/img/SamuraiMack/Idle.png',
+            framesMax: 8,
+        },
+        run: {
+            imgSrc: './gameAssets/img/SamuraiMack/Run.png',
+            framesMax: 8,
+        },
+        jump: {
+            imgSrc: './gameAssets/img/SamuraiMack/Jump.png',
+            framesMax: 2,
+        }
     }
 })
 // Ici création du second joueur
 let playerTwo = new Fighter({
     position: {
-        x: 900,
+        x: 700,
         y: 20
     },
     velocity: {
@@ -76,14 +109,33 @@ let playerTwo = new Fighter({
     attackBoxColor:
         'DarkSlateBlue',
     offset: {
-        x: -50,
-        y: 0
+        x: 215,
+        y: 103
+    },
+    imgSrc: './gameAssets/img/Kenji/Idle.png',
+    framesMax: 4,
+    scale: 2,
+    framesHold: 8,
+    sprites : {
+        idle: {
+            imgSrc: './gameAssets/img/Kenji/Idle.png',
+            framesMax: 4,
+        },
+        run: {
+            imgSrc: './gameAssets/img/Kenji/Run.png',
+            framesMax: 8,
+        },
+        jump: {
+            imgSrc: './gameAssets/img/Kenji/Jump.png',
+            framesMax: 2,
+        }
     }
 })
 
+// appel de notre fonction decreaseTimer, permettant la gestion du temps
 decreaseTimer();
 
-// soit animate la fonction d'animation pour les personnages, celle-ci va fonctioner comme une boucle infini tnat qu'on ne la stop pas
+// soit animate la fonction d'animation pour les personnages, celle-ci va fonctioner comme une boucle infini tant qu'on ne la stop pas
 function animate() {
     // nous allons requérir une animation
     window.requestAnimationFrame(animate)
@@ -97,6 +149,8 @@ function animate() {
 
     // appel du gameBackground en utilisant la method update() (elle même utilisant draw())
     gameBackground.update();
+    // appel de notre shop venant sur le fond et derrière les personnages
+    gameBackgroundShop.update();
     // on appel pour les deux joueurs la method update
     // aura pour effet de 'dessiner' les player mais aussi de mettre à jour leurs positions
     playerOne.update();
@@ -106,9 +160,13 @@ function animate() {
     playerOne.velocity.x = 0;
     // gestion des déplacements (via velocity) pour le playerOne
     if (keys.q.pressed && 'q' === playerOne.lastKeyPressed) {
-        playerOne.velocity.x = -5
+        playerOne.velocity.x = -5;
+        playerOne.image = playerOne.sprites.run.image;
     } else if (keys.d.pressed && 'd' === playerOne.lastKeyPressed) {
-        playerOne.velocity.x = 5
+        playerOne.velocity.x = 5;
+        playerOne.image = playerOne.sprites.run.image;
+    } else {
+        playerOne.image = playerOne.sprites.idle.image;
     }
     // il était possible mais peu intéressant de gérer les sauts de la manière suivante :
     // le saut sera géré grace à la velocity sur l'eventListener (pour faire monter le joueur)
@@ -120,11 +178,14 @@ function animate() {
     playerTwo.velocity.x = 0;
     // // gestion des déplacements (via velocity) pour le playerTwo
     if (keys.ArrowLeft.pressed && 'ArrowLeft' === playerTwo.lastKeyPressed) {
-        playerTwo.velocity.x = -5
+        playerTwo.velocity.x = -5;
+        playerTwo.image = playerTwo.sprites.run.image;
     } else if (keys.ArrowRight.pressed && 'ArrowRight' === playerTwo.lastKeyPressed) {
-        playerTwo.velocity.x = 5
+        playerTwo.velocity.x = 5;
+        playerTwo.image = playerTwo.sprites.run.image;
+    } else {
+        playerTwo.image = playerTwo.sprites.idle.image;
     }
-
     // gestion des collisions/attaques pour le playerOne
     if (attackCollision({player: playerOne, ennemy: playerTwo}) &&
         // && Pour finir notre playerOne est-il en train d'attaquer ? (nous ne voulons pas toucher sans avoir attaqué

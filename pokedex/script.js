@@ -1,5 +1,5 @@
 let pokeContainer = document.getElementById('poke-container')
-let pokeCount = 151
+let pokeCount = 751
 let colors = {
     fire: '#fddfdf',
     grass: '#defde0',
